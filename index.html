@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div.container {
+            margin-left: calc((100% - 360px)/2);
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="canvas" width="360" height="480"></canvas>
+    </div>
+    <script src="scripts/font.js"></script>
+    <script>
+        var grid = [
+            [ 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0 ],
+            [ 0, 0, 0, 0, 0, 0 ],
+        ]
+        const canvas = document.getElementById("canvas");
+        const CELL_WIDTH = 60, CANVAS_WIDTH = 360, CANVAS_HEIGHT = 480
+        var ctx = canvas.getContext("2d");
+
+        function draw (grid) {
+            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+            let y = 0
+            for (let row of grid) {
+                let x = 0
+                for (let col of row) {
+                    ctx.beginPath()
+                    ctx.rect(x, y, CELL_WIDTH, CELL_WIDTH);
+                    if (col) {
+                        ctx.fillStyle = '#0af'
+                        ctx.fill()
+                    }
+                    ctx.stroke();
+                    x += CELL_WIDTH
+                }
+                y += CELL_WIDTH
+            }
+        }
+
+        draw(grid);
+
+        (() => {
+            const chars = Object.values(font)
+            let index = 0
+            
+            setInterval(() => {
+                if (index < chars.length) {
+                    draw(chars[index])
+                    index = (index + 1) % chars.length
+                }
+            }, 500)
+        })()
+    </script>
+</body>
+</html>
